@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME_DEV}
+      MYSQL_PASSWORD: ${DB_PASSWORD_DEV}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - caretaker_default
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - NODE_ENV=development
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    depends_on:
+      - db
+    volumes:
+       - ./src:/app/src  # Mapeia apenas a pasta src
+       - ./package.json:/app/package.json
+       - ./tsconfig.json:/app/tsconfig.json
+       - /app/node_modules
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: ${DB_USERNAME_DEV}
+      DB_PASSWORD: ${DB_PASSWORD_DEV}
+      DB_DATABASE: ${DB_DATABASE}
+      
+    networks:
+      - caretaker_default
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  caretaker_default:
+    driver: bridge
