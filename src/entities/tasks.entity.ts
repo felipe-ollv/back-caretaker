@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('tasks')
 export class Task {
@@ -6,7 +13,7 @@ export class Task {
   id: number;
 
   @Column({ name: 'uuid_task', unique: true })
-  uuidTask: string;
+  uuid_task: string;
 
   @Column()
   title: string;
@@ -21,8 +28,9 @@ export class Task {
   })
   status: string;
 
-  @Column({ name: 'uuid_user_fk' })
-  uuidUserFk: string;
+  @ManyToOne(() => User, (user) => user.uuid_user)
+  @JoinColumn({ name: 'uuid_user_fk', referencedColumnName: 'uuid_user' })
+  uuid_user_fk: string;
 
   @Column({
     name: 'created_at',
