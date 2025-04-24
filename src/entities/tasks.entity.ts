@@ -2,8 +2,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
@@ -28,7 +28,7 @@ export class TaskEntity {
   })
   status: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.uuid_user)
+  @OneToOne(() => UserEntity, (user) => user.uuid_user)
   @JoinColumn({ name: 'uuid_user_fk', referencedColumnName: 'uuid_user' })
   uuid_user_fk: string;
 
