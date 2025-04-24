@@ -5,10 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('tasks')
-export class Task {
+export class TaskEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -28,7 +28,7 @@ export class Task {
   })
   status: string;
 
-  @ManyToOne(() => User, (user) => user.uuid_user)
+  @ManyToOne(() => UserEntity, (user) => user.uuid_user)
   @JoinColumn({ name: 'uuid_user_fk', referencedColumnName: 'uuid_user' })
   uuid_user_fk: string;
 

@@ -14,8 +14,8 @@ import { HomeService } from './home/service/home.service';
 // Modules
 
 // Entities
-import { Task } from './entities/tasks.entity';
-import { User } from './entities/user.entity';
+import { TaskEntity } from './entities/tasks.entity';
+import { UserEntity } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -30,9 +30,9 @@ import { User } from './entities/user.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Task, User],
+      entities: [TaskEntity, UserEntity],
     }),
-    TypeOrmModule.forFeature([Task]),
+    TypeOrmModule.forFeature([TaskEntity, UserEntity]),
   ],
   controllers: [AppController, HomeController],
   providers: [AppService, HomeService],
